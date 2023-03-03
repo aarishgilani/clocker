@@ -21,12 +21,12 @@ write_csv(){
 
 
 # Condition check if (clockin)
-if [$do == "in"]; then
+if [ $do == "in" ]; then
 write_csv $current_day $current_time
 fi
 
 # Condition check if (clockout)
-if ["$do" == "out"]; then
+if [ "$do" == "out" ]; then
 
 write_csv $current_day $current_time
 
