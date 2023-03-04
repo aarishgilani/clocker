@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Define where the log files exsist and will be saved
+
+
+# Change directory to working directory
+
+
+
 # Nice greeting for user
 echo "Hello Aarish, Good day today! Ready to work?"
 
@@ -14,7 +21,7 @@ current_time=$(date +'%H:%M')
 # Convention to write data in .csv format
 ## write_csv $host $date checkout $checkout_time
 write_csv(){
-    echo \"$1\",\"$2\",\"$3\",\"$4\" >> log.csv
+    echo \"$1\",\"$2\",\"$3\",\"$4\" >> in.csv
 }
 
 
@@ -25,11 +32,10 @@ fi
 
 # Condition check if (clockout)
 if [ "$do" == "out" ]; then
-awk -v day=\"$current_day\" -v time=\"$current_time\" -F "," '{if($1==day) {$3=time}} {print $1","$2","$3} ' log.csv write.csv
+awk -v day=\"$current_day\" -v time=\"$current_time\" -F "," '{if($1==day) {$3=time}} {print $1","$2","$3}' in.csv > out.csv
 fi
 
 # If input is other than 'in' / 'out' reask the question
-
 if [[ $do != 'out' && $do != 'in' ]]; then 
 
 echo "Enter a valid input in for Clock in and out for Clock out"
