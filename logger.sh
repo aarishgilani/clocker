@@ -5,8 +5,6 @@ echo "Hello Aarish, Good day today! Ready to work?"
 
 read do
 
-echo $do
-
 # Get current day | From system
 current_day=$(date +'%A')
 
@@ -27,9 +25,7 @@ fi
 
 # Condition check if (clockout)
 if [ "$do" == "out" ]; then
-
-write_csv $current_day $current_time
-
+awk -v day=\"$current_day\" -v time=\"$current_time\" -F "," '{if($1==day) {$3=time}} {print $1","$2","$3} ' log.csv write.csv
 fi
 
 # If input is other than 'in' / 'out' reask the question
@@ -43,7 +39,7 @@ fi
 
 
 # Return statement
-echo "Clocked $do you for $current_day $current_time"
+echo "Clocked you $do for $current_day $current_time"
 
 
 
