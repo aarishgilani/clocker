@@ -24,7 +24,7 @@ current_date=$(date +'%Y/%m/%d')
 # Convention to write data in .csv format
 ## write_csv $host $date checkout $checkout_time
 write_csv(){
-    echo \"$1\",\"$2\",\"$3\",\"$4\" >> in.csv
+    echo \"$1\",\"$2\",\"$3\" >> in.csv
 }
 
 
@@ -35,16 +35,18 @@ fi
 
 # Condition check if (clockout)
 if [ "$do" == "out" ]; then
-awk -v day=\"$current_date\" -v time=\"$current_time\" -F "," '{if($1==day) {$4=time}} {print $1","$2","$3","$4}' in.csv > out.csv
+# Read all the files and in array called a
+# At the end of the file print array till n-1 element and add current time at the end 
+awk -v time="\"$current_time\"" '{a[NR]=$0} END{for(i=1;i<=NR;i++) { if(i==NR) {print $1","time} else print a[i]} }' in.csv > temp && mv temp in.csv
 fi
 
-# If input is other than 'in' / 'out' reask the question
-if [[ $do != 'out' && $do != 'in' ]]; then 
+# If input is other than 'in' / 'out' reask the question till correct answer is provided
+while [[ $do != 'out' && $do != 'in' ]]; do
 
-echo "Enter a valid input in for Clock in and out for Clock out"
+echo "Enter a valid input \"in\" for clocking in and \"out\" for clocking out:"
 read do
 echo $do
-fi
+done
 
 
 # Return statement
